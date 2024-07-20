@@ -1,0 +1,1 @@
+# This is a template for FreeRTOS project in STM32F407
