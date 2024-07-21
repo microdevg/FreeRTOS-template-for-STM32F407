@@ -1,1 +1,6 @@
 build
+.vscode
+# Openocd Config for flash and debbug the code
+openocd.cfg
+# Bash Script to compile and flash the program
+runCode.sh

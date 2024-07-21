@@ -18,7 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "FreeRTOS.h"
+#include "task.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -37,12 +38,33 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
+
+ void vApplicationMallocFailedHook( void ){
+// Turn ON led to Fatal ERROR
+
+ }
+
+void vApplicationStackOverflowHook(struct tskTaskControlBlock *, char *){
+// Turn ON led to Fatal ERROR
+
+}
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
+
+void task1(void* args){
+
+
+  for( ;; )
+  {
+    HAL_GPIO_TogglePin(GPIOD,LEDB_Pin);
+    vTaskDelay(500/portTICK_PERIOD_MS);
+  }
+}
+
 
 /* USER CODE END PV */
 
@@ -91,10 +113,16 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
+  TaskHandle_t t1 ;
+
+  xTaskCreate(task1,"Task 1 Example",2000,NULL,0,&t1);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  vTaskStartScheduler();
   uint8_t value = 0;
   while (1)
   {
