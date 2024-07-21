@@ -95,8 +95,14 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint8_t value = 0;
   while (1)
   {
+    value = HAL_GPIO_ReadPin(GPIOA,USER_BUTTON_Pin) ;
+    if(value)    HAL_GPIO_WritePin(GPIOD,LEDA_Pin,1);
+    HAL_Delay(2000);
+    HAL_GPIO_WritePin(GPIOD,LEDA_Pin,0);
+    HAL_GPIO_TogglePin(GPIOD,LEDC_Pin);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
